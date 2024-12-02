@@ -67,7 +67,7 @@ ENTRYPOINT ["/start.sh"]
 | Sender Name     | Display name of the sender                              |
 | Receiver Emails | List of recipient email addresses                       |
 | CC/BCC          | Optional fields for the list of CC/BCC recipients       |
-| Subject         | THe subject of the email                                |
+| Subject         | The subject of the email                                |
 | Template Path   | Path to the FreeMarker template file                    |
 | Dynamic Data    | Key-value pairs for the dynamic content in the template |
 
