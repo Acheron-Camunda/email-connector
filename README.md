@@ -101,7 +101,7 @@ ENTRYPOINT ["/start.sh"]
 ### Sample BPMN
 
  &emsp;&emsp;&emsp;You can integrate the connector in a BPMN workflow. A sample BPMN file is shown below:<br/><br/>
-<img src ="images/email-test.png" alt =""/><br/><br/>
+<img src ="email-test.png" alt =""/><br/><br/>
 &emsp;&emsp;&emsp;The connector element template that should be used for this connector can be found as a JSON file in the "element-templates" folder.
 
 ### Contact Information
