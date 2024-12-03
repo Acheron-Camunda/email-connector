@@ -7,7 +7,7 @@ The **Acheron FreeMarker Email Connector** is a custom Camunda outbound connecto
 ## Key Features  
 
 - **Dynamic Email Content:** Use FreeMarker templates to craft email content dynamically based on provided data.  
-- **Seamless Integration:** Fully compatible with Camunda 8.6.2 and self-managed environments.  
+- **Seamless Integration:** Fully compatible with Camunda 8.6.5 and self-managed environments.  
 - **Customizable Email Fields:** Support for Sender Name, Receiver Emails, CC/BCC, Subject, and dynamic content.  
 - **Extensible Design:** Easily configurable for additional email providers or customization.  
 
