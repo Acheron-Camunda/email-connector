@@ -50,7 +50,7 @@ docker build -t freemarker-connector .
  &emsp;&emsp;&emsp;Here’s the Dockerfile used to build the runtime image:
 
 ```
-FROM camunda/connectors:8.6.2
+FROM camunda/connectors:8.6.4
 COPY target/freemarker-connector-0.0.1-SNAPSHOT-jar-with-dependencies.jar /opt/app/
 ENTRYPOINT ["/start.sh"]
 ```
