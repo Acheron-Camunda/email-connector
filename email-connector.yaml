@@ -1,0 +1,24 @@
+services:
+  email-connector:
+    image: inno-lab.acheron-tech.com:5000/acheron-email-connector:V1
+    container_name: email-connector
+
+    environment:
+      - ZEEBE_CLIENT_BROKER_GATEWAY-ADDRESS=zeebe:26500
+      - ZEEBE_CLIENT_SECURITY_PLAINTEXT=true
+      - CAMUNDA_CONNECTOR_POLLING_ENABLED=false
+      - CAMUNDA_CONNECTOR_WEBHOOK_ENABLED=false
+      - OPERATE_CLIENT_ENABLED=false
+      - EMAIL_HOST=smtp.gmail.com
+      - EMAIL_PORT=587
+      - EMAIL_USERNAME=<your-email>
+      - EMAIL_PASSWORD=<your-email-password>
+      - AWS_ACCESS_KEY_ID=<aws-access-key>
+      - AWS_SECRET_ACCESS_KEY=<aws-secret-key>
+
+    networks:
+      - camunda-86_camunda-platform
+
+networks:
+  camunda-86_camunda-platform:
+    external: true

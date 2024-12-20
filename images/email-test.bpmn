@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0e964y4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.29.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.6.0">
+  <bpmn:collaboration id="Collaboration_1jvvli8">
+    <bpmn:participant id="Participant_1l3yctf" name="New User Registration Process" processRef="Process_00ym9t5" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_00ym9t5" isExecutable="true">
+    <bpmn:extensionElements>
+      <zeebe:userTaskForm id="UserTaskForm_2adnr5r">{
+  "components": [
+    {
+      "text": "# User Information Form",
+      "type": "text",
+      "layout": {
+        "row": "Row_0gmdff0",
+        "columns": null
+      },
+      "id": "Field_12mw5c7"
+    },
+    {
+      "label": "Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0q2znq9",
+        "columns": null
+      },
+      "id": "Field_03c6kej",
+      "key": "name",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "City",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_01fp6fg",
+        "columns": null
+      },
+      "id": "Field_0zfdu4j",
+      "key": "city",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_090n7bl",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.29.0"
+  },
+  "schemaVersion": 17
+}</zeebe:userTaskForm>
+    </bpmn:extensionElements>
+    <bpmn:laneSet id="LaneSet_1hpbmvh">
+      <bpmn:lane id="Lane_1gcn10h" name="User Interaction">
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0awrv2t</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1cewdzt" name="System">
+        <bpmn:flowNodeRef>Activity_1gqpvcq</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_1n5v4q5</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:sequenceFlow id="Flow_0edtsm4" sourceRef="StartEvent_1" targetRef="Activity_0awrv2t" />
+    <bpmn:sequenceFlow id="Flow_03xto16" sourceRef="Activity_1gqpvcq" targetRef="Event_1n5v4q5" />
+    <bpmn:sequenceFlow id="Flow_0omsnh2" sourceRef="Activity_0awrv2t" targetRef="Activity_1gqpvcq" />
+    <bpmn:startEvent id="StartEvent_1" name="Start User Registration">
+      <bpmn:outgoing>Flow_0edtsm4</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_0awrv2t" name="Submit User Information">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formKey="camunda-forms:bpmn:UserTaskForm_2adnr5r" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0edtsm4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0omsnh2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_1gqpvcq" name="Send Welcome Email" zeebe:modelerTemplate="com.acheron.camunda.connectors.email.template:1" zeebe:modelerTemplateVersion="1" zeebe:modelerTemplateIcon="data:image/png;base64,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">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="com.acheron.camunda.connectors.email.template:1" />
+        <zeebe:ioMapping>
+          <zeebe:input source="freemarker.send-email" target="operation" />
+          <zeebe:input source="=[&#34;hariharan.b@acheron-tech.com&#34;]" target="data.receiverEmail" />
+          <zeebe:input source="Offers Admin" target="data.senderName" />
+          <zeebe:input source="Welcome to Offers Point !!!" target="data.subject" />
+          <zeebe:input source="={&#10;&#34;name&#34;:name,&#10;&#34;city&#34;:city&#10;}" target="data.dynamicData" />
+          <zeebe:input source="free/coupons-email.ftl" target="data.templatePath" />
+          <zeebe:input source="=[&#34;rpk.reddy@acheron-tech.com&#34;]" target="data.cc" />
+          <zeebe:input source="=null" target="data.bcc" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="resultVariable" value="response" />
+          <zeebe:header key="resultExpression" value="=response" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0omsnh2</bpmn:incoming>
+      <bpmn:outgoing>Flow_03xto16</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_1n5v4q5" name="User Registration completed">
+      <bpmn:incoming>Flow_03xto16</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1jvvli8">
+      <bpmndi:BPMNShape id="Participant_1l3yctf_di" bpmnElement="Participant_1l3yctf" isHorizontal="true">
+        <dc:Bounds x="129" y="57" width="600" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1cewdzt_di" bpmnElement="Lane_1cewdzt" isHorizontal="true">
+        <dc:Bounds x="159" y="182" width="570" height="125" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1gcn10h_di" bpmnElement="Lane_1gcn10h" isHorizontal="true">
+        <dc:Bounds x="159" y="57" width="570" height="125" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="222" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="211" y="142" width="59" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0715cae_di" bpmnElement="Activity_0awrv2t">
+        <dc:Bounds x="320" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_01njxtr_di" bpmnElement="Activity_1gqpvcq">
+        <dc:Bounds x="490" y="200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1n5v4q5_di" bpmnElement="Event_1n5v4q5">
+        <dc:Bounds x="652" y="222" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="628" y="265" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0edtsm4_di" bpmnElement="Flow_0edtsm4">
+        <di:waypoint x="258" y="117" />
+        <di:waypoint x="320" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03xto16_di" bpmnElement="Flow_03xto16">
+        <di:waypoint x="590" y="240" />
+        <di:waypoint x="652" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0omsnh2_di" bpmnElement="Flow_0omsnh2">
+        <di:waypoint x="420" y="117" />
+        <di:waypoint x="450" y="117" />
+        <di:waypoint x="450" y="240" />
+        <di:waypoint x="490" y="240" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
