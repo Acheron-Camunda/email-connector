@@ -3,6 +3,7 @@
 **/.m2/
 target/
 **/target/
+.mvn/settings-local.xml
 
 ### Logs ###
 *.log
