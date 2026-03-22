@@ -1,33 +1,48 @@
-HELP.md
+### Maven local repo (DO NOT COMMIT) ###
+.m2/
+**/.m2/
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+### Logs ###
+*.log
+logs/
+log/
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+### OS junk ###
+.DS_Store
+Thumbs.db
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+### Local env / secrets (if you use them) ###
+.env
+.env.*
+application-*.local.properties
+application-local.yml
+application-local.yaml
+application-local.properties
 
-### VS Code ###
-.vscode/
+### Maven release / backup files ###
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+### Java artifacts ###
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+replay_pid*
+
+### Test reports / coverage ###
+/surefire-reports/
+/failsafe-reports/
+*.exec
+*.hprof
+.coverage/
+.coverage.*
+
+### Optional: if you use Lombok ###
+.apt_generated/

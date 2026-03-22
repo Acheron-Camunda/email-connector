@@ -52,7 +52,7 @@ docker build -t acheron-email-connector .
  &emsp;&emsp;&emsp;Here’s the Dockerfile used to build the runtime image:
 
 ```
-FROM camunda/connectors:8.6.5
+FROM camunda/connectors:8.8.14
 COPY target/acheron-email-connector-0.0.1-SNAPSHOT-jar-with-dependencies.jar /opt/app/
 COPY templates/ /templates/
 ENTRYPOINT ["/start.sh"]

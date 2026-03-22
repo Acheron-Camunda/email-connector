@@ -1,12 +1,17 @@
 services:
   email-connector:
-    image: inno-lab.acheron-tech.com:5000/acheron-email-connector:V1
+    image: email-connector:latest
     container_name: email-connector
 
     environment:
-      - ZEEBE_CLIENT_BROKER_GATEWAY-ADDRESS=zeebe:26500
-      - ZEEBE_CLIENT_SECURITY_PLAINTEXT=true
-      - CAMUNDA_CONNECTOR_POLLING_ENABLED=false
+      - CAMUNDA_CLIENT_MODE=self-managed
+      - CAMUNDA_CLIENT_RESTADDRESS=http://orchestration:8080
+      - CAMUNDA_CLIENT_GRPCADDRESS=http://orchestration:26500
+      - CAMUNDA_CLIENT_AUTH_METHOD=oidc
+      - CAMUNDA_CLIENT_AUTH_TOKENURL=http://keycloak:18080/auth/realms/camunda-platform/protocol/openid-connect/token
+      - CAMUNDA_CLIENT_AUTH_CLIENTID=connectors
+      - CAMUNDA_CLIENT_AUTH_CLIENTSECRET=<camunda-client-secret>
+      - CAMUNDA_CONNECTOR_POLLING_ENABLED=true
       - CAMUNDA_CONNECTOR_WEBHOOK_ENABLED=false
       - OPERATE_CLIENT_ENABLED=false
       - EMAIL_HOST=smtp.gmail.com
@@ -17,8 +22,8 @@ services:
       - AWS_SECRET_ACCESS_KEY=<aws-secret-key>
 
     networks:
-      - camunda-86_camunda-platform
+      - 8dot8_camunda-platform
 
 networks:
-  camunda-86_camunda-platform:
+  8dot8_camunda-platform:
     external: true

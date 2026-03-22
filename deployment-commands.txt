@@ -1,0 +1,3 @@
+mvn clean package
+docker build -t email-connector .
+docker compose -f email-connector.yaml up -d

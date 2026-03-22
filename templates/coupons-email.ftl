@@ -107,7 +107,7 @@
 
         <p>Dont miss out on these amazing offers. Start shopping today!</p>
 
-        <a href="http://acheron-tech.com" class="cta-button">Start Shopping</a>
+        <a href="https://example.com" class="cta-button">Start Shopping</a>
 
         <footer>
             <p>If you have any questions or need assistance, feel free to contact us. We are here to help!</p>

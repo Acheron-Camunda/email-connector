@@ -2,9 +2,11 @@ package com.acheron.connectors.email.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +63,18 @@ public class SendEmail implements EmailRequestData {
 	private static final String HOST = System.getenv("EMAIL_HOST").strip();
 	private static final int PORT = Integer.parseInt(System.getenv("EMAIL_PORT"));
 	private static SesV2Client sesv2Client = null;
+
+	private static final class TemplateLocation {
+		private final String directory;
+		private final String name;
+		private final String resolvedPath;
+
+		private TemplateLocation(String directory, String name, String resolvedPath) {
+			this.directory = directory;
+			this.name = name;
+			this.resolvedPath = resolvedPath;
+		}
+	}
 
 	/**
 	 * Constructor that initializes the email sender and FreeMarker configuration.
@@ -180,14 +194,12 @@ public class SendEmail implements EmailRequestData {
 					helper.setBcc(bcc.toArray(new String[0]));
 				}
 
-				String fullTemplatePath = templatePath; // Full path including template name
-				String templateDirectory = fullTemplatePath.substring(0, fullTemplatePath.lastIndexOf('/'));
-				String templateName = fullTemplatePath.substring(fullTemplatePath.lastIndexOf('/') + 1);
-
-				setTemplateLoaderFromPath(freemarkerConfig, templateDirectory);
+				TemplateLocation templateLocation = resolveTemplateLocation(templatePath);
+				setTemplateLoaderFromPath(freemarkerConfig, templateLocation.directory);
+				LOGGER.info("Using email template: {}", templateLocation.resolvedPath);
 
 				// Process the template and populate data
-				Template template = freemarkerConfig.getTemplate(templateName);
+				Template template = freemarkerConfig.getTemplate(templateLocation.name);
 				String htmlContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, dynamicData);
 
 				helper.setText(htmlContent, true);
@@ -200,13 +212,54 @@ public class SendEmail implements EmailRequestData {
 			}
 
 
-		} catch (MessagingException | IOException | freemarker.template.TemplateException e) {
-			LOGGER.error("Error occurred while sending email: {}", e.getMessage(), e);
-			response = "Error while sending email.";
+		} catch (MessagingException | IOException | freemarker.template.TemplateException | IllegalArgumentException e) {
+			LOGGER.error("Error occurred while sending email for templatePath '{}'. Dynamic data keys: {}. Error: {}",
+					templatePath, dynamicData != null ? dynamicData.keySet() : "null", e.getMessage(), e);
+			response = "Error while sending email: " + e.getMessage();
 		} catch (SesV2Exception e) {
-			LOGGER.error("Failed to send email: {}", e.awsErrorDetails().errorMessage());
+			String awsError = e.awsErrorDetails() != null ? e.awsErrorDetails().errorMessage() : e.getMessage();
+			LOGGER.error("Failed to send email: {}", awsError, e);
+			response = "Error while sending email: " + awsError;
 		}
 		return new Response<>(response);
+	}
+
+	private TemplateLocation resolveTemplateLocation(String inputPath) {
+		if (inputPath == null || inputPath.isBlank()) {
+			throw new IllegalArgumentException("templatePath cannot be null or blank.");
+		}
+
+		String normalizedPath = inputPath.trim().replace('\\', '/');
+		int lastSlash = normalizedPath.lastIndexOf('/');
+		if (lastSlash < 0 || lastSlash == normalizedPath.length() - 1) {
+			throw new IllegalArgumentException(
+					"Invalid templatePath '" + inputPath + "'. Expected a file path like /templates/email/file.ftl");
+		}
+
+		Set<String> candidatePaths = new LinkedHashSet<>();
+		candidatePaths.add(normalizedPath);
+		if (!normalizedPath.startsWith("/")) {
+			candidatePaths.add("/" + normalizedPath);
+		}
+		if (!normalizedPath.startsWith("/templates/")) {
+			if (normalizedPath.startsWith("templates/")) {
+				candidatePaths.add("/" + normalizedPath);
+			} else {
+				candidatePaths.add("/templates/" + normalizedPath);
+			}
+		}
+
+		for (String candidatePath : candidatePaths) {
+			File templateFile = new File(candidatePath);
+			if (templateFile.exists() && templateFile.isFile()) {
+				return new TemplateLocation(templateFile.getParent(), templateFile.getName(),
+						templateFile.getAbsolutePath());
+			}
+		}
+
+		String templateDirectory = normalizedPath.substring(0, lastSlash);
+		String templateName = normalizedPath.substring(lastSlash + 1);
+		return new TemplateLocation(templateDirectory, templateName, normalizedPath + " (unverified path)");
 	}
 
 	public List<String> getReceiverEmail() {

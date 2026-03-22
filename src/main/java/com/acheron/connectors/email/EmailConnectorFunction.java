@@ -16,7 +16,7 @@ import io.camunda.connector.api.outbound.OutboundConnectorFunction;
  * 
  * @author HariharanB
  */
-@OutboundConnector(name = "Email Tempalte", inputVariables = { "operation",
+@OutboundConnector(name = "Email Template", inputVariables = { "operation",
 		"data" }, type = "com.acheron.camunda.connectors.email.template:1")
 public class EmailConnectorFunction implements OutboundConnectorFunction {
 	private static final Logger LOGGER = LoggerFactory.getLogger(EmailConnectorFunction.class);

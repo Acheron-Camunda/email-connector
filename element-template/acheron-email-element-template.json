@@ -36,9 +36,9 @@
     {
       "type": "Hidden",
       "value": "com.acheron.camunda.connectors.email.template:1",
-      "editable": false,
       "binding": {
-        "type": "zeebe:taskDefinition:type"
+        "type": "zeebe:taskDefinition",
+        "property": "type"
       }
     },
     {

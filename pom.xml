@@ -13,24 +13,29 @@
 		<maven.compiler.target>21</maven.compiler.target>
 		<java.version>21</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<camunda.version>8.6.2</camunda.version>
-		<version-gson>2.11.0</version-gson>
+		<camunda.connector.core.version>8.8.8</camunda.connector.core.version>
+		<camunda.connector.validation.version>8.8.8</camunda.connector.validation.version>
+		<version-gson>2.13.2</version-gson>
 		<version-junit>5.11.0</version-junit>
 		<version-mockito>5.13.0</version-mockito>
+		<spring.boot.version>3.5.12</spring.boot.version>
+		<aws.sesv2.version>2.42.18</aws.sesv2.version>
+		<jackson.databind.version>2.21.2</jackson.databind.version>
 		<mycila-plugin.version>4.6</mycila-plugin.version>
 		<maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
 		<maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+		<maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>io.camunda.connector</groupId>
 			<artifactId>connector-core</artifactId>
-			<version>${camunda.version}</version>
+			<version>${camunda.connector.core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.camunda.connector</groupId>
 			<artifactId>connector-validation</artifactId>
-			<version>${camunda.version}</version>
+			<version>${camunda.connector.validation.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -40,22 +45,22 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-freemarker</artifactId>
-			<version>3.3.4</version>
+			<version>${spring.boot.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
-			<version>3.3.4</version>
+			<version>${spring.boot.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>sesv2</artifactId>
-			<version>2.28.26</version>
+			<version>${aws.sesv2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.17.3</version>
+			<version>${jackson.databind.version}</version>
 		</dependency>
 
 	</dependencies>
@@ -100,7 +105,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.5.1</version>
+				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
 					<argLine>--add-opens java.base/java.util=ALL-UNNAMED</argLine>
 				</configuration>
